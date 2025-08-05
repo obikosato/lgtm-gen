@@ -187,3 +187,26 @@ export const downloadImage = (
   link.click()
   document.body.removeChild(link)
 }
+
+export const copyImageToClipboard = async (
+  canvas: HTMLCanvasElement
+): Promise<void> => {
+  try {
+    const blob = await new Promise<Blob>((resolve) => {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          resolve(blob)
+        }
+      }, 'image/png')
+    })
+
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        'image/png': blob,
+      }),
+    ])
+  } catch (error) {
+    console.error('Failed to copy image to clipboard:', error)
+    throw error
+  }
+}

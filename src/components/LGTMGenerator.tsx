@@ -11,6 +11,7 @@ import {
 import type React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import {
+  copyImageToClipboard,
   createDefaultConfig,
   downloadImage,
   generateImage,
@@ -30,6 +31,7 @@ const LGTMGenerator: React.FC = () => {
   const [isDownloadEnabled, setIsDownloadEnabled] = useState(false)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [isDragOver, setIsDragOver] = useState(false)
+  const [isCopying, setIsCopying] = useState(false)
 
   const handleConfigChange = (
     key: keyof LGTMConfig,
@@ -93,6 +95,19 @@ const LGTMGenerator: React.FC = () => {
       })
     } catch (error) {
       console.error('Error downloading image:', error)
+    }
+  }
+
+  const handleCopyToClipboard = async () => {
+    if (!canvasRef.current) return
+
+    try {
+      setIsCopying(true)
+      await copyImageToClipboard(canvasRef.current)
+    } catch (error) {
+      console.error('Error copying image to clipboard:', error)
+    } finally {
+      setIsCopying(false)
     }
   }
 
@@ -336,22 +351,42 @@ const LGTMGenerator: React.FC = () => {
                   as='section'
                   aria-label='ダウンロードエリア'
                 >
-                  <Button
-                    onClick={handleDownload}
-                    colorPalette='green'
-                    size={{ base: 'md', md: 'lg' }}
-                    disabled={!isDownloadEnabled}
-                    w={{ base: 'full', md: 'auto' }}
-                    minW={{ md: '200px' }}
-                    aria-label={
-                      isDownloadEnabled
-                        ? '生成されたLGTM画像をPNG形式でダウンロード'
-                        : '画像を生成してからダウンロードできます'
-                    }
-                    aria-describedby='download-status'
+                  <Stack
+                    direction={{ base: 'column', sm: 'row' }}
+                    gap={3}
+                    w='full'
                   >
-                    画像をダウンロード
-                  </Button>
+                    <Button
+                      onClick={handleDownload}
+                      colorPalette='blue'
+                      size={{ base: 'md', md: 'lg' }}
+                      disabled={!isDownloadEnabled}
+                      flex='1'
+                      aria-label={
+                        isDownloadEnabled
+                          ? '生成されたLGTM画像をPNG形式でダウンロード'
+                          : '画像を生成してからダウンロードできます'
+                      }
+                      aria-describedby='download-status'
+                    >
+                      画像をダウンロード
+                    </Button>
+                    <Button
+                      onClick={handleCopyToClipboard}
+                      colorPalette='blue'
+                      variant='outline'
+                      size={{ base: 'md', md: 'lg' }}
+                      disabled={!isDownloadEnabled || isCopying}
+                      flex='1'
+                      aria-label={
+                        isDownloadEnabled
+                          ? '生成されたLGTM画像をクリップボードにコピー'
+                          : '画像を生成してからコピーできます'
+                      }
+                    >
+                      クリップボードにコピー
+                    </Button>
+                  </Stack>
                   <Box
                     id='download-status'
                     fontSize='sm'
