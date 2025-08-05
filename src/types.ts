@@ -1,8 +1,6 @@
-export type BackgroundType = 'color' | 'image'
 export type ImageFitType = 'cover' | 'contain' | 'fill'
 
 export type LGTMConfig = {
-  backgroundType: BackgroundType
   backgroundColor: string
   backgroundImage: string | null
   imageFit: ImageFitType

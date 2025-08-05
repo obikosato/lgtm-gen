@@ -14,7 +14,7 @@ import {
   downloadImage,
   generateImage,
 } from '../lib/lgtm-generator'
-import type { BackgroundType, ImageFitType, LGTMConfig } from '../types'
+import type { ImageFitType, LGTMConfig } from '../types'
 
 const imageFitOptions = [
   { value: 'cover', label: 'Cover', description: '切り抜いて全体表示' },
@@ -32,7 +32,7 @@ const LGTMGenerator: React.FC = () => {
 
   const handleConfigChange = (
     key: keyof LGTMConfig,
-    value: string | BackgroundType | ImageFitType
+    value: string | ImageFitType
   ) => {
     setConfig((prev) => ({
       ...prev,
