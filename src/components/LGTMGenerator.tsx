@@ -22,6 +22,7 @@ const LGTMGenerator: React.FC = () => {
   const [config, setConfig] = useState<LGTMConfig>(createDefaultConfig())
   const [isDownloadEnabled, setIsDownloadEnabled] = useState(false)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [isDragOver, setIsDragOver] = useState(false)
 
   const handleConfigChange = (
     key: keyof LGTMConfig,
@@ -33,8 +34,7 @@ const LGTMGenerator: React.FC = () => {
     }))
   }
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
+  const processImageFile = (file: File) => {
     if (file?.type.startsWith('image/')) {
       const reader = new FileReader()
       reader.onload = (e) => {
@@ -43,6 +43,36 @@ const LGTMGenerator: React.FC = () => {
         handleConfigChange('backgroundImage', result)
       }
       reader.readAsDataURL(file)
+    }
+  }
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      processImageFile(file)
+    }
+  }
+
+  const handleDragOver = (event: React.DragEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    event.stopPropagation()
+    setIsDragOver(true)
+  }
+
+  const handleDragLeave = (event: React.DragEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    event.stopPropagation()
+    setIsDragOver(false)
+  }
+
+  const handleDrop = (event: React.DragEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    event.stopPropagation()
+    setIsDragOver(false)
+
+    const files = event.dataTransfer.files
+    if (files.length > 0) {
+      processImageFile(files[0])
     }
   }
 
@@ -127,15 +157,55 @@ const LGTMGenerator: React.FC = () => {
               </Field.Label>
               <VStack align='start' gap={3} w='full'>
                 <Button
+                  w='full'
+                  minH='120px'
+                  p={6}
+                  border='2px dashed'
+                  borderColor={isDragOver ? 'blue.400' : 'gray.300'}
+                  borderRadius='lg'
+                  bg={isDragOver ? 'blue.50' : 'gray.50'}
+                  textAlign='center'
+                  display='flex'
+                  flexDirection='column'
+                  alignItems='center'
+                  justifyContent='center'
+                  gap={3}
+                  cursor='pointer'
+                  transition='all 0.2s'
+                  variant='ghost'
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
                   onClick={handleImageButtonClick}
-                  onKeyDown={handleKeyDown}
-                  variant='outline'
-                  size={{ base: 'md', md: 'lg' }}
-                  w={{ base: 'full', md: 'auto' }}
+                  _hover={{ borderColor: 'blue.400', bg: 'blue.50' }}
                   aria-describedby='background-image-label'
-                  aria-label='背景画像ファイルを選択する'
+                  aria-label='画像をドラッグ&ドロップまたはクリックして選択'
+                  onKeyDown={handleKeyDown}
                 >
-                  画像を選択
+                  <Box fontSize='2xl' color='gray.400'>
+                    📷
+                  </Box>
+                  <VStack gap={1}>
+                    <Box
+                      fontSize={{ base: 'sm', md: 'md' }}
+                      color='gray.600'
+                      fontWeight='medium'
+                    >
+                      {isDragOver
+                        ? '画像をドロップしてください'
+                        : 'ここに画像をドラッグ&ドロップ'}
+                    </Box>
+                    <Box fontSize={{ base: 'xs', md: 'sm' }} color='gray.500'>
+                      または
+                      <Box
+                        as='span'
+                        color='blue.500'
+                        textDecoration='underline'
+                      >
+                        クリックして選択
+                      </Box>
+                    </Box>
+                  </VStack>
                 </Button>
                 <input
                   ref={fileInputRef}
