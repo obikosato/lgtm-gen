@@ -236,7 +236,7 @@ const LGTMGenerator: React.FC = () => {
                         src={imagePreview}
                         alt='選択された背景画像のプレビュー'
                         maxH={{ base: '75px', md: '100px' }}
-                        objectFit='cover'
+                        objectFit='contain'
                         w='full'
                       />
                     </Box>
