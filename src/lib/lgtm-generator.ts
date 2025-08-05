@@ -115,13 +115,14 @@ export const drawText = (
   ctx.font = `bold ${fontSize}px Arial, sans-serif`
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
+  ctx.letterSpacing = '0.2em'
 
   const x = canvas.width / 2
   const y = canvas.height / 2
 
   // Draw black outline
   ctx.strokeStyle = '#000000'
-  ctx.lineWidth = 4
+  ctx.lineWidth = 2
   ctx.strokeText(text, x, y)
 
   // Draw white text
