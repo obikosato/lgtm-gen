@@ -4,8 +4,8 @@ export const createDefaultConfig = (): LGTMConfig => ({
   backgroundColor: '#4CAF50',
   backgroundImage: null,
   imageFit: 'cover',
-  width: 300,
-  height: 200,
+  width: 400,
+  height: 250,
 })
 
 export const getCanvasContext = (
@@ -110,24 +110,42 @@ export const drawText = (
   ctx: CanvasRenderingContext2D,
   canvas: HTMLCanvasElement
 ): void => {
-  const text = 'LGTM'
-  const fontSize = 48
-  ctx.font = `bold ${fontSize}px Arial, sans-serif`
+  const x = canvas.width / 2
+  const y = canvas.height / 2
+
+  // Main LGTM text
+  const mainText = 'LGTM'
+  const mainFontSize = 64
+  ctx.font = `bold ${mainFontSize}px Arial, sans-serif`
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.letterSpacing = '0.2em'
 
-  const x = canvas.width / 2
-  const y = canvas.height / 2
-
-  // Draw black outline
+  // Draw black outline for LGTM
   ctx.strokeStyle = '#000000'
   ctx.lineWidth = 2
-  ctx.strokeText(text, x, y)
+  ctx.strokeText(mainText, x, y)
 
-  // Draw white text
+  // Draw white text for LGTM
   ctx.fillStyle = '#ffffff'
-  ctx.fillText(text, x, y)
+  ctx.fillText(mainText, x, y)
+
+  // Subtitle text
+  const subtitle = 'Looks Good To Me'
+  const subtitleFontSize = 20
+  ctx.font = `bold ${subtitleFontSize}px Arial, sans-serif`
+  ctx.letterSpacing = '0.1em'
+
+  const subtitleY = y + mainFontSize / 2 + 10
+
+  // Draw black outline for subtitle
+  ctx.strokeStyle = '#000000'
+  ctx.lineWidth = 1
+  ctx.strokeText(subtitle, x, subtitleY)
+
+  // Draw white text for subtitle
+  ctx.fillStyle = '#ffffff'
+  ctx.fillText(subtitle, x, subtitleY)
 }
 
 export const generateImage = async (
