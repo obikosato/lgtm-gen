@@ -14,7 +14,13 @@ import {
   downloadImage,
   generateImage,
 } from '../lib/lgtm-generator'
-import type { BackgroundType, LGTMConfig } from '../types'
+import type { BackgroundType, ImageFitType, LGTMConfig } from '../types'
+
+const imageFitOptions = [
+  { value: 'cover', label: 'Cover', description: '切り抜いて全体表示' },
+  { value: 'contain', label: 'Contain', description: '全体を収める' },
+  { value: 'fill', label: 'Fill', description: '引き伸ばして全体表示' },
+]
 
 const LGTMGenerator: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -26,7 +32,7 @@ const LGTMGenerator: React.FC = () => {
 
   const handleConfigChange = (
     key: keyof LGTMConfig,
-    value: string | BackgroundType
+    value: string | BackgroundType | ImageFitType
   ) => {
     setConfig((prev) => ({
       ...prev,
@@ -217,22 +223,80 @@ const LGTMGenerator: React.FC = () => {
                   tabIndex={-1}
                 />
                 {imagePreview && (
-                  <Box
-                    borderRadius='md'
-                    overflow='hidden'
-                    maxW={{ base: '150px', md: '200px' }}
-                    w='full'
-                    role='img'
-                    aria-label='選択された背景画像のプレビュー'
-                  >
-                    <Image
-                      src={imagePreview}
-                      alt='選択された背景画像のプレビュー'
-                      maxH={{ base: '75px', md: '100px' }}
-                      objectFit='cover'
+                  <VStack align='start' gap={3} w='full'>
+                    <Box
+                      borderRadius='md'
+                      overflow='hidden'
+                      maxW={{ base: '150px', md: '200px' }}
                       w='full'
-                    />
-                  </Box>
+                      role='img'
+                      aria-label='選択された背景画像のプレビュー'
+                    >
+                      <Image
+                        src={imagePreview}
+                        alt='選択された背景画像のプレビュー'
+                        maxH={{ base: '75px', md: '100px' }}
+                        objectFit='cover'
+                        w='full'
+                      />
+                    </Box>
+                    <Box>
+                      <Field.Label
+                        fontSize={{ base: 'xs', md: 'sm' }}
+                        mb={3}
+                        fontWeight='medium'
+                      >
+                        画像の表示方法
+                      </Field.Label>
+                      <VStack gap={2} align='stretch'>
+                        {imageFitOptions.map((option) => (
+                          <Button
+                            key={option.value}
+                            onClick={() =>
+                              handleConfigChange(
+                                'imageFit',
+                                option.value as ImageFitType
+                              )
+                            }
+                            variant={
+                              config.imageFit === option.value
+                                ? 'solid'
+                                : 'outline'
+                            }
+                            colorPalette={
+                              config.imageFit === option.value ? 'blue' : 'gray'
+                            }
+                            size={{ base: 'md', md: 'lg' }}
+                            justifyContent='flex-start'
+                            textAlign='left'
+                            h='auto'
+                            p={4}
+                            transition='all 0.2s'
+                            _hover={{
+                              transform: 'translateY(-1px)',
+                              shadow: 'md',
+                            }}
+                          >
+                            <VStack gap={1} align='start'>
+                              <Box
+                                fontSize={{ base: 'sm', md: 'md' }}
+                                fontWeight='semibold'
+                              >
+                                {option.label}
+                              </Box>
+                              <Box
+                                fontSize={{ base: 'xs', md: 'sm' }}
+                                opacity={0.8}
+                                lineHeight='1.4'
+                              >
+                                {option.description}
+                              </Box>
+                            </VStack>
+                          </Button>
+                        ))}
+                      </VStack>
+                    </Box>
+                  </VStack>
                 )}
               </VStack>
             </Field.Root>

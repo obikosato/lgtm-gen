@@ -4,7 +4,8 @@ export const createDefaultConfig = (): LGTMConfig => ({
   backgroundType: 'image',
   backgroundColor: '#4CAF50',
   backgroundImage: null,
-  width: 400,
+  imageFit: 'cover',
+  width: 300,
   height: 200,
 })
 
@@ -36,6 +37,48 @@ export const drawBackground = (
   }
 }
 
+const drawImageWithFit = (
+  ctx: CanvasRenderingContext2D,
+  img: HTMLImageElement,
+  canvas: HTMLCanvasElement,
+  fitType: string
+): void => {
+  const canvasWidth = canvas.width
+  const canvasHeight = canvas.height
+  const imgWidth = img.naturalWidth || img.width
+  const imgHeight = img.naturalHeight || img.height
+
+  let drawWidth: number, drawHeight: number, drawX: number, drawY: number
+
+  switch (fitType) {
+    case 'cover': {
+      const scale = Math.max(canvasWidth / imgWidth, canvasHeight / imgHeight)
+      drawWidth = imgWidth * scale
+      drawHeight = imgHeight * scale
+      drawX = (canvasWidth - drawWidth) / 2
+      drawY = (canvasHeight - drawHeight) / 2
+      break
+    }
+    case 'contain': {
+      const scale = Math.min(canvasWidth / imgWidth, canvasHeight / imgHeight)
+      drawWidth = imgWidth * scale
+      drawHeight = imgHeight * scale
+      drawX = (canvasWidth - drawWidth) / 2
+      drawY = (canvasHeight - drawHeight) / 2
+      break
+    }
+    default: {
+      drawWidth = canvasWidth
+      drawHeight = canvasHeight
+      drawX = 0
+      drawY = 0
+      break
+    }
+  }
+
+  ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight)
+}
+
 export const drawBackgroundSync = async (
   ctx: CanvasRenderingContext2D,
   canvas: HTMLCanvasElement,
@@ -45,7 +88,7 @@ export const drawBackgroundSync = async (
     if (config.backgroundImage) {
       const img = new Image()
       img.onload = () => {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+        drawImageWithFit(ctx, img, canvas, config.imageFit)
         resolve()
       }
       img.onerror = () => {
