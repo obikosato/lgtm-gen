@@ -1,7 +1,7 @@
 import type { DownloadOptions, LGTMConfig } from '../types'
 
 export const createDefaultConfig = (): LGTMConfig => ({
-  backgroundColor: '#4CAF50',
+  backgroundColor: '#0000004c',
   backgroundImage: null,
   imageFit: 'cover',
   width: 400,
