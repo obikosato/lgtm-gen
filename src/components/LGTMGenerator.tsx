@@ -17,9 +17,9 @@ import {
 import type { ImageFitType, LGTMConfig } from '../types'
 
 const imageFitOptions = [
-  { value: 'cover', label: 'Cover', description: '切り抜いて全体表示' },
-  { value: 'contain', label: 'Contain', description: '全体を収める' },
-  { value: 'fill', label: 'Fill', description: '引き伸ばして全体表示' },
+  { value: 'cover', description: '切り抜いて全体表示' },
+  { value: 'contain', description: '全体を収める' },
+  { value: 'fill', description: '引き伸ばして全体表示' },
 ]
 
 const LGTMGenerator: React.FC = () => {
@@ -277,21 +277,12 @@ const LGTMGenerator: React.FC = () => {
                               shadow: 'md',
                             }}
                           >
-                            <VStack gap={1} align='start'>
-                              <Box
-                                fontSize={{ base: 'sm', md: 'md' }}
-                                fontWeight='semibold'
-                              >
-                                {option.label}
-                              </Box>
-                              <Box
-                                fontSize={{ base: 'xs', md: 'sm' }}
-                                opacity={0.8}
-                                lineHeight='1.4'
-                              >
-                                {option.description}
-                              </Box>
-                            </VStack>
+                            <Box
+                              fontSize={{ base: 'sm', md: 'md' }}
+                              fontWeight='semibold'
+                            >
+                              {option.description}
+                            </Box>
                           </Button>
                         ))}
                       </VStack>
