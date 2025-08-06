@@ -20,7 +20,7 @@ export const RandomDogButton: React.FC<RandomDogButtonProps> = ({
       disabled={isLoadingRandomDog}
       aria-label='ランダムな犬の画像を取得'
     >
-      {isLoadingRandomDog ? 'ロード中...' : '🐕 ランダムな犬'}
+      {isLoadingRandomDog ? 'ロード中...' : 'ランダムな犬'}
     </Button>
   )
 }

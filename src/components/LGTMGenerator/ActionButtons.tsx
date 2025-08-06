@@ -18,13 +18,11 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 }) => {
   return (
     <VStack justify='center' as='section' aria-label='ダウンロードエリア'>
-      <Stack direction={{ base: 'column', sm: 'row' }} gap={3} w='full'>
+      <Stack direction={{ base: 'column', md: 'row' }} gap={3}>
         <Button
           onClick={onDownload}
           colorPalette='blue'
-          size={{ base: 'md', md: 'lg' }}
           disabled={!isDownloadEnabled || isLoadingInitialImage}
-          flex='1'
           aria-label={
             isDownloadEnabled
               ? '生成されたLGTM画像をPNG形式でダウンロード'
@@ -38,9 +36,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
           onClick={onCopyToClipboard}
           colorPalette='blue'
           variant='outline'
-          size={{ base: 'md', md: 'lg' }}
           disabled={!isDownloadEnabled || isCopying || isLoadingInitialImage}
-          flex='1'
           aria-label={
             isDownloadEnabled
               ? '生成されたLGTM画像をクリップボードにコピー'
