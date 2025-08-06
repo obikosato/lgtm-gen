@@ -86,6 +86,7 @@ export const drawBackgroundSync = async (
   return new Promise((resolve) => {
     if (config.backgroundImage) {
       const img = new Image()
+      img.crossOrigin = 'anonymous'
       img.onload = () => {
         drawImageWithFit(ctx, img, canvas, config.imageFit)
         resolve()

@@ -9,7 +9,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import type React from 'react'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   copyImageToClipboard,
   createDefaultConfig,
@@ -27,15 +27,18 @@ const imageFitOptions = [
 const LGTMGenerator: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const initialLoadedRef = useRef(false)
   const [config, setConfig] = useState<LGTMConfig>(createDefaultConfig())
   const [isDownloadEnabled, setIsDownloadEnabled] = useState(false)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [isDragOver, setIsDragOver] = useState(false)
   const [isCopying, setIsCopying] = useState(false)
+  const [isLoadingRandomDog, setIsLoadingRandomDog] = useState(false)
+  const [isLoadingInitialImage, setIsLoadingInitialImage] = useState(true)
 
   const handleConfigChange = (
     key: keyof LGTMConfig,
-    value: string | ImageFitType
+    value: string | ImageFitType | null
   ) => {
     setConfig((prev) => ({
       ...prev,
@@ -121,6 +124,53 @@ const LGTMGenerator: React.FC = () => {
       fileInputRef.current?.click()
     }
   }
+
+  const fetchRandomDogImage = useCallback(async (): Promise<string> => {
+    const response = await fetch('https://dog.ceo/api/breeds/image/random')
+    if (!response.ok) {
+      throw new Error('Failed to fetch random dog image')
+    }
+    const data = await response.json()
+    if (data.status !== 'success' || !data.message) {
+      throw new Error('Invalid response from Dog API')
+    }
+    return data.message
+  }, [])
+
+  const handleRandomDog = async () => {
+    setIsLoadingRandomDog(true)
+    try {
+      const imageUrl = await fetchRandomDogImage()
+      setImagePreview(imageUrl)
+      handleConfigChange('backgroundImage', imageUrl)
+    } catch (error) {
+      console.error('Error fetching random dog image:', error)
+    } finally {
+      setIsLoadingRandomDog(false)
+    }
+  }
+
+  useEffect(() => {
+    if (initialLoadedRef.current) return
+
+    const loadInitialImage = async () => {
+      initialLoadedRef.current = true
+      try {
+        const imageUrl = await fetchRandomDogImage()
+        setImagePreview(imageUrl)
+        setConfig((prev) => ({ ...prev, backgroundImage: imageUrl }))
+      } catch (error) {
+        console.error('Error loading initial dog image:', error)
+        // フォールバック処理：エラーが発生してもデフォルト設定で続行
+        setImagePreview(null)
+        setConfig((prev) => ({ ...prev, backgroundImage: null }))
+      } finally {
+        setIsLoadingInitialImage(false)
+      }
+    }
+
+    loadInitialImage()
+  }, [fetchRandomDogImage])
 
   useEffect(() => {
     if (!canvasRef.current) return
@@ -241,6 +291,17 @@ const LGTMGenerator: React.FC = () => {
                       aria-label='背景画像ファイル選択'
                       tabIndex={-1}
                     />
+                    <Button
+                      onClick={handleRandomDog}
+                      colorPalette='blue'
+                      size={{ base: 'md', md: 'lg' }}
+                      w='full'
+                      mb={3}
+                      disabled={isLoadingRandomDog}
+                      aria-label='ランダムな犬の画像を取得'
+                    >
+                      {isLoadingRandomDog ? 'ロード中...' : '🐕 ランダムな犬'}
+                    </Button>
                     {imagePreview && (
                       <Stack
                         direction={{ base: 'column', md: 'row' }}
@@ -328,7 +389,30 @@ const LGTMGenerator: React.FC = () => {
                   textAlign='center'
                   aria-label='生成されたLGTM画像'
                   w='full'
+                  position='relative'
                 >
+                  {isLoadingInitialImage && (
+                    <Box
+                      position='absolute'
+                      top={0}
+                      left={0}
+                      right={0}
+                      bottom={0}
+                      display='flex'
+                      alignItems='center'
+                      justifyContent='center'
+                      bg='gray.50'
+                      borderRadius='lg'
+                      zIndex={1}
+                    >
+                      <VStack gap={2}>
+                        <Box fontSize='2xl'>🐕</Box>
+                        <Box fontSize='sm' color='gray.600'>
+                          ランダムな犬の画像を読み込み中...
+                        </Box>
+                      </VStack>
+                    </Box>
+                  )}
                   <canvas
                     ref={canvasRef}
                     width='400'
@@ -339,6 +423,7 @@ const LGTMGenerator: React.FC = () => {
                       borderRadius: '8px',
                       display: 'block',
                       margin: '0 auto',
+                      opacity: isLoadingInitialImage ? 0.3 : 1,
                     }}
                     role='img'
                     aria-label='生成されたLGTM画像。背景画像の上に白い「LGTM」テキストが黒い枠線付きで表示されています。'
@@ -360,7 +445,7 @@ const LGTMGenerator: React.FC = () => {
                       onClick={handleDownload}
                       colorPalette='blue'
                       size={{ base: 'md', md: 'lg' }}
-                      disabled={!isDownloadEnabled}
+                      disabled={!isDownloadEnabled || isLoadingInitialImage}
                       flex='1'
                       aria-label={
                         isDownloadEnabled
@@ -376,7 +461,9 @@ const LGTMGenerator: React.FC = () => {
                       colorPalette='blue'
                       variant='outline'
                       size={{ base: 'md', md: 'lg' }}
-                      disabled={!isDownloadEnabled || isCopying}
+                      disabled={
+                        !isDownloadEnabled || isCopying || isLoadingInitialImage
+                      }
                       flex='1'
                       aria-label={
                         isDownloadEnabled
