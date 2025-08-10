@@ -20,8 +20,8 @@
     "canvas",
     "image-generation"
   ],
-  "author": "",
-  "license": "UNLICENSED",
+  "author": "obikosato",
+  "license": "MIT",
   "dependencies": {
     "@chakra-ui/react": "3.24.0",
     "@emotion/react": "11.14.0",

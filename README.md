@@ -1,5 +1,7 @@
 # LGTM画像ジェネレーター
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ブラウザ上でLGTM画像を生成するシンプルなWebアプリケーションです。
 
 ## 使い方
@@ -57,6 +59,7 @@ npm run check
 - **背景色設定**: 背景透過の場合の背景色カスタマイズ
 - **CLIツール**: コマンドラインからの画像生成機能
 
-## ライセンス
+## 使用している外部API
 
-UNLICENSED
+本プロジェクトでは、Elliott Landsboroughが著作権を持つ[dog-ceo-api](https://github.com/ElliottLandsborough/dog-ceo-api)（MITライセンス）を利用しています。
+dog-ceo-apiのソースコードおよびライセンス情報は <https://github.com/ElliottLandsborough/dog-ceo-api> を参照してください。
