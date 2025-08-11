@@ -62,8 +62,7 @@ npm run check
 ├── src/
 │   ├── components/           # React components
 │   │   ├── LGTMGenerator/    # Main generator components
-│   │   ├── Footer.tsx        # Footer component
-│   │   └── ui/               # UI provider components
+│   │   └── Footer.tsx        # Footer component
 │   ├── hooks/                # Custom React hooks
 │   ├── lib/                  # Utility functions
 │   │   └── lgtm-generator.ts # Core image generation logic
