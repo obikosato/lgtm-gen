@@ -99,3 +99,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **[Dog CEO API](https://github.com/ElliottLandsborough/dog-ceo-api)** - Provides random dog images (MIT License)
 
 For detailed attribution information, see [ATTRIBUTION.md](ATTRIBUTION.md).
+
+## Disclaimer
+
+- You are solely responsible for the use of images generated and downloaded from this application
+- Please ensure you have proper legal rights (including copyright) to use any images you upload or other content you provide
+- The developers assume no responsibility for any damages that may arise from the use of this application
