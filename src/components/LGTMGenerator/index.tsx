@@ -42,7 +42,7 @@ const LGTMGenerator: React.FC = () => {
       maxW={{ base: 'container.sm', md: 'container.lg' }}
       px={{ base: 4, md: 8 }}
       py={{ base: 4, md: 8 }}
-      aria-label='LGTM画像ジェネレーターアプリケーション'
+      aria-label='LGTM画像を作るアプリケーション'
     >
       <VStack gap={{ base: 6, md: 8 }}>
         <Heading
@@ -52,7 +52,7 @@ const LGTMGenerator: React.FC = () => {
           color='gray.800'
           px={{ base: 2, md: 0 }}
         >
-          LGTM画像をつくるよ
+          LGTM画像つくるよ
         </Heading>
 
         <Box
