@@ -2,6 +2,7 @@ import { Box, Button, Field, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { useDragAndDrop } from '../../hooks/useDragAndDrop'
 import { useImageUpload } from '../../hooks/useImageUpload'
+import { useLanguage } from '../../providers'
 import type { ImageFitType, LGTMConfig } from '../../types'
 
 type ImageUploadAreaProps = {
@@ -16,6 +17,7 @@ export const ImageUploadArea: React.FC<ImageUploadAreaProps> = ({
   onConfigChange,
   onImagePreviewChange,
 }) => {
+  const { t } = useLanguage()
   const {
     fileInputRef,
     imagePreview,
@@ -58,17 +60,14 @@ export const ImageUploadArea: React.FC<ImageUploadAreaProps> = ({
             📷
           </Box>
           <VStack gap={1}>
-            <Box fontSize='md' color='gray.600' fontWeight='medium'>
-              {isDragOver
-                ? '画像をドロップしてください'
-                : 'ここに画像をドラッグ&ドロップ'}
-            </Box>
-            <Box fontSize='sm' color='gray.500'>
-              または
-              <Box as='span' color='blue.500' textDecoration='underline'>
-                クリックして選択
-              </Box>
-              、画像をコピー&ペースト
+            <Box
+              fontSize='sm'
+              color='gray.600'
+              lineHeight='1.4'
+              whiteSpace='pre-wrap'
+              wordBreak='keep-all'
+            >
+              {isDragOver ? t('dragDropActiveText') : t('dragDropText')}
             </Box>
           </VStack>
         </Button>

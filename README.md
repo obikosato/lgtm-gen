@@ -12,9 +12,6 @@ A simple web application for generating LGTM (Looks Good To Me) images. Your upl
 
 **[🚀 Live Demo](https://obikosato.github.io/lgtm-gen/)**
 
-Sorry, the app is currently available only in Japanese.
-We appreciate your understanding and are considering English support in the future.
-
 ### How to Use
 
 1. **Upload Image** - Choose your preferred method to add a background image:

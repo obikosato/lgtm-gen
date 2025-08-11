@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useCanvasGeneration } from '../../hooks/useCanvasGeneration'
 import { useRandomDog } from '../../hooks/useRandomDog'
 import { createDefaultConfig } from '../../lib/lgtm-generator'
+import { useLanguage } from '../../providers'
 import type { ImageFitType, LGTMConfig } from '../../types'
 import { ActionButtons } from './ActionButtons'
 import { CanvasPreview } from './CanvasPreview'
@@ -12,6 +13,7 @@ import { ImageUploadArea } from './ImageUploadArea'
 import { RandomDogButton } from './RandomDogButton'
 
 const LGTMGenerator: React.FC = () => {
+  const { t } = useLanguage()
   const [config, setConfig] = useState<LGTMConfig>(createDefaultConfig())
   const [imagePreview, setImagePreview] = useState<string | null>(null)
 
@@ -42,11 +44,11 @@ const LGTMGenerator: React.FC = () => {
       maxW={{ base: 'container.sm', md: 'container.lg' }}
       px={{ base: 4, md: 8 }}
       py={{ base: 4, md: 8 }}
-      aria-label='LGTM画像を作るアプリケーション'
+      aria-label={t('ariaAppLabel')}
     >
       <VStack gap={{ base: 6, md: 8 }}>
         <Heading as='h1' size='2xl' textAlign='center' color='gray.800'>
-          LGTM画像つくるよ
+          {t('title')}
         </Heading>
 
         <Box

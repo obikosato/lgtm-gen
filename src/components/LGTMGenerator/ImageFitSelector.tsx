@@ -1,12 +1,7 @@
 import { Box, Image, Stack, VStack } from '@chakra-ui/react'
 import type React from 'react'
+import { useLanguage } from '../../providers'
 import type { ImageFitType, LGTMConfig } from '../../types'
-
-const imageFitOptions = [
-  { value: 'cover', description: '切り抜いて全体表示' },
-  { value: 'contain', description: '全体を収める' },
-  { value: 'fill', description: '引き伸ばして全体表示' },
-]
 
 type ImageFitSelectorProps = {
   imagePreview: string | null
@@ -22,6 +17,14 @@ export const ImageFitSelector: React.FC<ImageFitSelectorProps> = ({
   config,
   onConfigChange,
 }) => {
+  const { t } = useLanguage()
+
+  const imageFitOptions = [
+    { value: 'cover', description: t('fitCover') },
+    { value: 'contain', description: t('fitContain') },
+    { value: 'fill', description: t('fitFill') },
+  ]
+
   if (!imagePreview) return null
 
   return (
@@ -34,7 +37,7 @@ export const ImageFitSelector: React.FC<ImageFitSelectorProps> = ({
       <Box borderRadius='md' overflow='hidden' maxW='200px' flexShrink={0}>
         <Image
           src={imagePreview}
-          alt='選択された背景画像のプレビュー'
+          alt={t('ariaImagePreview')}
           maxH='100px'
           objectFit='contain'
           w='full'
@@ -43,7 +46,7 @@ export const ImageFitSelector: React.FC<ImageFitSelectorProps> = ({
       <Box flex='1'>
         <Box as='fieldset' border='none' p={0} m={0}>
           <Box as='legend' fontSize='sm' mb={3} fontWeight='medium'>
-            画像のフィット方法
+            {t('imageFitTitle')}
           </Box>
           <VStack gap={2} align='stretch'>
             {imageFitOptions.map((option) => {
@@ -68,7 +71,7 @@ export const ImageFitSelector: React.FC<ImageFitSelectorProps> = ({
                     onChange={() =>
                       onConfigChange('imageFit', option.value as ImageFitType)
                     }
-                    aria-label={`画像のフィット方法: ${option.description}`}
+                    aria-label={`${t('ariaImageFit')}: ${option.description}`}
                     style={{ accentColor: 'blue' }}
                   />
                   <label

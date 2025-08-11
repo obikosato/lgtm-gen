@@ -1,7 +1,7 @@
-import { ChakraProvider, defaultSystem } from '@chakra-ui/react'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
+import { Providers } from './providers'
 
 const container = document.getElementById('root')
 if (!container) {
@@ -11,8 +11,8 @@ if (!container) {
 const root = createRoot(container)
 root.render(
   <React.StrictMode>
-    <ChakraProvider value={defaultSystem}>
+    <Providers>
       <App />
-    </ChakraProvider>
+    </Providers>
   </React.StrictMode>
 )

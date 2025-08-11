@@ -1,5 +1,6 @@
 import { Button, Stack } from '@chakra-ui/react'
 import type React from 'react'
+import { useLanguage } from '../../providers'
 
 type ActionButtonsProps = {
   isDownloadEnabled: boolean
@@ -16,12 +17,13 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
   onDownload,
   onCopyToClipboard,
 }) => {
+  const { t } = useLanguage()
   const disabled = !isDownloadEnabled || isLoadingInitialImage
 
   return (
     <Stack direction={{ base: 'column', md: 'row' }} gap={3} justify='center'>
       <Button onClick={onDownload} colorPalette='blue' disabled={disabled}>
-        画像をダウンロード
+        {t('downloadImage')}
       </Button>
       <Button
         onClick={onCopyToClipboard}
@@ -29,7 +31,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
         variant='outline'
         disabled={disabled || isCopying}
       >
-        クリップボードにコピー
+        {t('copyToClipboard')}
       </Button>
     </Stack>
   )
