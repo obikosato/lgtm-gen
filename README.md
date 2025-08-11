@@ -4,7 +4,7 @@
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/-React-61DAFB?logo=react&logoColor=white)](https://reactjs.org/)
 
-A simple web application for generating LGTM (Looks Good To Me) images. Your uploaded images are processed entirely in your browser and never sent to any server. (Random dog images are fetched from an external API.)
+A simple web application for generating LGTM images.
 
 🌐 日本語版READMEは[こちら](README_ja.md)をご覧ください。
 
@@ -14,14 +14,19 @@ A simple web application for generating LGTM (Looks Good To Me) images. Your upl
 
 ### How to Use
 
-1. **Upload Image** - Choose your preferred method to add a background image:
-   - **Drag & Drop** - Drag an image file directly onto the upload area
-   - **File Selection** - Click the upload area to open file dialog
-   - **Copy & Paste** - Copy an image from your browser/clipboard and paste with Ctrl+V (⌘+V on Mac)
-   - **Random Dog** - Use the random dog button for a quick test image (fetches from an external API)
-2. **Select Fit Mode** - Select how the image should fit the canvas
-3. **Auto Generation** - LGTM image is generated automatically whenever you make changes
-4. **Save or Copy** - Download the image or copy it to your clipboard
+1. Add a background image using your preferred method:
+   - Drag and drop an image file
+   - Click to select an image file
+   - Copy and paste from clipboard (Ctrl+V / ⌘+V)
+   - Use "Random Dog" button for dog images
+2. Select fit mode
+3. Image is generated automatically
+4. Download the image or copy to clipboard
+
+### Privacy Notice
+
+- Uploaded images are processed entirely within your browser and are never sent to any server
+- Random dog images are retrieved from an external API
 
 ## Development
 
@@ -65,11 +70,10 @@ npm run check
 ```sh
 ├── src/
 │   ├── components/           # React components
-│   │   ├── LGTMGenerator/    # Main generator components
-│   │   └── Footer.tsx        # Footer component
 │   ├── hooks/                # Custom React hooks
+│   ├── i18n/                 # Internationalization
 │   ├── lib/                  # Utility functions
-│   │   └── lgtm-generator.ts # Core image generation logic
+│   ├── providers/            # React context providers
 │   ├── types.ts              # TypeScript type definitions
 │   ├── App.tsx               # Application root
 │   └── main.tsx              # Entry point
