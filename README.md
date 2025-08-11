@@ -1,65 +1,98 @@
-# LGTM画像ジェネレーター
+# LGTM Generator
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/-React-61DAFB?logo=react&logoColor=white)](https://reactjs.org/)
 
-ブラウザ上でLGTM画像を生成するシンプルなWebアプリケーションです。
+A simple web application for generating LGTM (Looks Good To Me) images. Your uploaded images are processed entirely in your browser and never sent to any server. (Random dog images are fetched from an external API.)
 
-## 使い方
+🌐 日本語版READMEは[こちら](README_ja.md)をご覧ください。
 
-1. **画像をアップロード** - ドラッグ&ドロップまたはクリックして背景画像を選択
-1. **表示方法を選択** - ラジオボタンで画像のフィット方法を調整
-1. **自動生成を確認** - 設定変更時に即座にLGTM画像が自動生成される
-1. **保存・コピー** - 「画像をダウンロード」でファイル保存、または「クリップボードにコピー」で直接コピー
+## Try It Now
 
-## セットアップ
+<!-- **[🚀 Live Demo](https://obikosato.github.io/lgtm-gen/)** -->
 
-```sh
-# 依存関係をインストール
+### How to Use
+
+1. **Upload Image** - Drag & drop or click to select a background image (or use the random dog button)
+2. **Select Fit Mode** - Select how the image should fit the canvas
+3. **Auto Generation** - LGTM image is generated automatically whenever you make changes
+4. **Save or Copy** - Download the image or copy it to your clipboard
+
+## Development
+
+For developers who want to contribute or run locally:
+
+### Prerequisites
+
+- Node.js 20.19.0+
+- npm
+
+### Setup
+
+```bash
+git clone https://github.com/obikosato/lgtm-gen.git
+cd lgtm-gen
+
+# Install dependencies
 npm install
 
-# 開発サーバー起動（localhost:3000）
+# Start development server
 npm run dev
+```
 
-# プロダクション用ビルド
+Open <http://localhost:5173> in your browser.
+
+### Build Commands
+
+```bash
+# Production build
 npm run build
 
-# プレビューサーバー起動
+# Preview production build
 npm run preview
 
-# コード品質チェック（lint + format）
+# Code quality check (lint + format)
 npm run check
 ```
 
-## ファイル構成
+### Project Structure
 
 ```sh
 ├── src/
-│   ├── components/
-│   │   ├── LGTMGenerator.tsx     # メイン画像生成コンポーネント
-│   │   └── ui/
-│   │       └── provider.tsx      # Chakra UI プロバイダー
-│   ├── lib/
-│   │   └── lgtm-generator.ts     # 画像生成ロジック（純粋関数）
-│   ├── types.ts                  # TypeScript型定義
-│   ├── App.tsx                   # アプリケーションルート
-│   └── main.tsx                  # エントリーポイント
-├── public/
-│   └── index.html               # HTMLテンプレート
-├── dist/                        # ビルド出力ディレクトリ
-├── biome.json                   # Biome設定
-├── vite.config.ts              # Vite設定
-├── tsconfig.json               # TypeScript設定
-└── package.json                # 依存関係管理
+│   ├── components/           # React components
+│   │   ├── LGTMGenerator/    # Main generator components
+│   │   ├── Footer.tsx        # Footer component
+│   │   └── ui/               # UI provider components
+│   ├── hooks/                # Custom React hooks
+│   ├── lib/                  # Utility functions
+│   │   └── lgtm-generator.ts # Core image generation logic
+│   ├── types.ts              # TypeScript type definitions
+│   ├── App.tsx               # Application root
+│   └── main.tsx              # Entry point
+├── index.html                # HTML entry point
+├── dist/                     # Build output
+├── biome.json                # Biome configuration
+├── vite.config.ts            # Vite configuration
+├── tsconfig.json             # TypeScript configuration
+├── package.json              # Dependencies and scripts
+└── LICENSE                   # MIT license file
 ```
 
-## 今後の改善案
+## Built With
 
-- **GIFアニメーション対応**: 動画やGIFを背景に設定可能に
-- **文字カスタマイズ**: フォントサイズ・色・フォントファミリーの選択
-- **背景色設定**: 背景透過の場合の背景色カスタマイズ
-- **CLIツール**: コマンドラインからの画像生成機能
+- **[React](https://reactjs.org/)** - UI library
+- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript
+- **[Vite](https://vitejs.dev/)** - Fast build tool
+- **[Chakra UI](https://chakra-ui.com/)** - Modular and accessible component library
+- **[Biome](https://biomejs.dev/)** - Fast linter and formatter
 
-## 使用している外部API
+## License
 
-本プロジェクトでは、Elliott Landsboroughが著作権を持つ[dog-ceo-api](https://github.com/ElliottLandsborough/dog-ceo-api)（MITライセンス）を利用しています。
-dog-ceo-apiのソースコードおよびライセンス情報は <https://github.com/ElliottLandsborough/dog-ceo-api> を参照してください。
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- **[Dog CEO API](https://github.com/ElliottLandsborough/dog-ceo-api)** - Provides random dog images (MIT License)
+
+For detailed attribution information, see [ATTRIBUTION.md](ATTRIBUTION.md).
