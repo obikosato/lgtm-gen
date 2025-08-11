@@ -1,6 +1,26 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ImageFitType, LGTMConfig } from '../types'
 
+const useDebounce = (callback: () => void, delay: number) => {
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const debouncedCallback = useCallback(() => {
+    timeoutRef.current && clearTimeout(timeoutRef.current)
+
+    timeoutRef.current = setTimeout(() => {
+      callback()
+    }, delay)
+  }, [callback, delay])
+
+  useEffect(() => {
+    return () => {
+      timeoutRef.current && clearTimeout(timeoutRef.current)
+    }
+  }, [])
+
+  return debouncedCallback
+}
+
 export const useRandomDog = (
   onConfigChange: (
     key: keyof LGTMConfig,
@@ -24,7 +44,7 @@ export const useRandomDog = (
     return data.message
   }, [])
 
-  const handleRandomDog = async () => {
+  const handleRandomDogInternal = async () => {
     setIsLoadingRandomDog(true)
     try {
       const imageUrl = await fetchRandomDogImage()
@@ -36,6 +56,8 @@ export const useRandomDog = (
       setIsLoadingRandomDog(false)
     }
   }
+
+  const handleRandomDog = useDebounce(handleRandomDogInternal, 500)
 
   useEffect(() => {
     if (initialLoadedRef.current) return
