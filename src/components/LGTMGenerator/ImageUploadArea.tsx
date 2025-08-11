@@ -68,6 +68,7 @@ export const ImageUploadArea: React.FC<ImageUploadAreaProps> = ({
               <Box as='span' color='blue.500' textDecoration='underline'>
                 クリックして選択
               </Box>
+              、画像をコピー&ペースト
             </Box>
           </VStack>
         </Button>

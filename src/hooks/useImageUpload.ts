@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ImageFitType, LGTMConfig } from '../types'
 
 export const useImageUpload = (
@@ -10,8 +10,9 @@ export const useImageUpload = (
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
 
-  const processImageFile = (file: File) => {
-    if (file?.type.startsWith('image/')) {
+  const processImageFile = useCallback(
+    (file: File) => {
+      if (!file?.type.startsWith('image/')) return
       const reader = new FileReader()
       reader.onload = (e) => {
         const result = e.target?.result as string
@@ -19,14 +20,13 @@ export const useImageUpload = (
         onConfigChange('backgroundImage', result)
       }
       reader.readAsDataURL(file)
-    }
-  }
+    },
+    [onConfigChange]
+  )
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
-    if (file) {
-      processImageFile(file)
-    }
+    file && processImageFile(file)
   }
 
   const handleImageButtonClick = () => {
@@ -39,6 +39,30 @@ export const useImageUpload = (
       fileInputRef.current?.click()
     }
   }
+
+  const handlePaste = useCallback(
+    (event: ClipboardEvent) => {
+      const items = event.clipboardData?.items
+      if (!items) return
+
+      const imageItem = Array.from(items).find((item) =>
+        item.type.startsWith('image/')
+      )
+
+      if (imageItem) {
+        const file = imageItem.getAsFile()
+        file && processImageFile(file)
+      }
+    },
+    [processImageFile]
+  )
+
+  useEffect(() => {
+    document.addEventListener('paste', handlePaste)
+    return () => {
+      document.removeEventListener('paste', handlePaste)
+    }
+  }, [handlePaste])
 
   return {
     fileInputRef,

@@ -14,7 +14,11 @@ A simple web application for generating LGTM (Looks Good To Me) images. Your upl
 
 ### How to Use
 
-1. **Upload Image** - Drag & drop or click to select a background image (or use the random dog button)
+1. **Upload Image** - Choose your preferred method to add a background image:
+   - **Drag & Drop** - Drag an image file directly onto the upload area
+   - **File Selection** - Click the upload area to open file dialog
+   - **Copy & Paste** - Copy an image from your browser/clipboard and paste with Ctrl+V (⌘+V on Mac)
+   - **Random Dog** - Use the random dog button for a quick test image (fetches from an external API)
 2. **Select Fit Mode** - Select how the image should fit the canvas
 3. **Auto Generation** - LGTM image is generated automatically whenever you make changes
 4. **Save or Copy** - Download the image or copy it to your clipboard
