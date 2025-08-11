@@ -8,7 +8,7 @@ const imageFitOptions = [
   { value: 'fill', description: '引き伸ばして全体表示' },
 ]
 
-interface ImageFitSelectorProps {
+type ImageFitSelectorProps = {
   imagePreview: string | null
   config: LGTMConfig
   onConfigChange: (
@@ -31,29 +31,18 @@ export const ImageFitSelector: React.FC<ImageFitSelectorProps> = ({
       gap={4}
       w='full'
     >
-      <Box
-        borderRadius='md'
-        overflow='hidden'
-        maxW={{ base: '150px', md: '200px' }}
-        flexShrink={0}
-        role='img'
-        aria-label='選択された背景画像のプレビュー'
-      >
+      <Box borderRadius='md' overflow='hidden' maxW='200px' flexShrink={0}>
         <Image
           src={imagePreview}
           alt='選択された背景画像のプレビュー'
-          maxH={{ base: '75px', md: '100px' }}
+          maxH='100px'
           objectFit='contain'
           w='full'
         />
       </Box>
       <Box flex='1'>
         <Field.Root>
-          <Field.Label
-            fontSize={{ base: 'xs', md: 'sm' }}
-            mb={3}
-            fontWeight='medium'
-          >
+          <Field.Label fontSize='sm' mb={3} fontWeight='medium'>
             画像の表示方法
           </Field.Label>
         </Field.Root>
@@ -79,11 +68,7 @@ export const ImageFitSelector: React.FC<ImageFitSelectorProps> = ({
                 }
                 style={{ accentColor: 'blue' }}
               />
-              <Box
-                as='label'
-                fontSize={{ base: 'xs', md: 'sm' }}
-                cursor='pointer'
-              >
+              <Box as='label' fontSize='sm' cursor='pointer'>
                 {option.description}
               </Box>
             </Box>

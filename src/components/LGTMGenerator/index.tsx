@@ -45,43 +45,33 @@ const LGTMGenerator: React.FC = () => {
       aria-label='LGTM画像を作るアプリケーション'
     >
       <VStack gap={{ base: 6, md: 8 }}>
-        <Heading
-          as='h1'
-          size={{ base: 'xl', md: '2xl' }}
-          textAlign='center'
-          color='gray.800'
-          px={{ base: 2, md: 0 }}
-        >
+        <Heading as='h1' size='2xl' textAlign='center' color='gray.800'>
           LGTM画像つくるよ
         </Heading>
 
         <Box
-          as='section'
           bg='white'
-          p={{ base: 4, md: 8 }}
+          p={8}
           borderRadius='xl'
           boxShadow='lg'
           w='full'
           maxW='1000px'
-          aria-label='画像生成エリア'
         >
           <Stack
-            gap={{ base: 4, md: 8 }}
+            gap={8}
             align='start'
             direction={{ base: 'column', md: 'row' }}
           >
             <Box flex='1' minW='0' w='full'>
-              <VStack gap={{ base: 4, md: 6 }}>
+              <VStack gap={6}>
                 <ImageUploadArea
                   onConfigChange={handleConfigChange}
                   onImagePreviewChange={setImagePreview}
                 />
-
                 <RandomDogButton
                   isLoadingRandomDog={isLoadingRandomDog}
                   onRandomDog={handleRandomDog}
                 />
-
                 <ImageFitSelector
                   imagePreview={imagePreview}
                   config={config}
@@ -91,12 +81,11 @@ const LGTMGenerator: React.FC = () => {
             </Box>
 
             <Box flex='1' minW='0' w='full'>
-              <VStack gap={{ base: 4, md: 6 }}>
+              <VStack gap={6}>
                 <CanvasPreview
                   canvasRef={canvasRef}
                   isLoadingInitialImage={isLoadingInitialImage}
                 />
-
                 <ActionButtons
                   isDownloadEnabled={isDownloadEnabled}
                   isCopying={isCopying}
