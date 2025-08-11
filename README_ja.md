@@ -10,7 +10,7 @@ LGTM（Looks Good To Me）画像を生成するシンプルなウェブアプリ
 
 ## 使ってみる
 
-<!-- **[🚀 LGTM画像つくるよ](https://obikosato.github.io/lgtm-gen/)** -->
+**[🚀 LGTM画像つくるよ](https://obikosato.github.io/lgtm-gen/)**
 
 ### 使い方
 
