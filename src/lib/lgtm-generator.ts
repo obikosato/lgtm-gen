@@ -86,18 +86,50 @@ export const drawBackgroundSync = async (
   return new Promise((resolve) => {
     if (config.backgroundImage) {
       const img = new Image()
-      img.crossOrigin = 'anonymous'
+      // Try without crossOrigin first for better compatibility
       img.onload = () => {
-        drawImageWithFit(ctx, img, canvas, config.imageFit)
-        resolve()
+        try {
+          drawImageWithFit(ctx, img, canvas, config.imageFit)
+          resolve()
+        } catch (error) {
+          console.error('Error drawing image:', error)
+          // Fallback to background color
+          ctx.fillStyle = config.backgroundColor
+          ctx.fillRect(0, 0, canvas.width, canvas.height)
+          resolve()
+        }
       }
-      img.onerror = () => {
-        // Fallback to background color if image fails
-        ctx.fillStyle = config.backgroundColor
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-        resolve()
+      img.onerror = (error) => {
+        console.warn('Image failed to load, trying with CORS:', error)
+        // Try again with CORS
+        const corsImg = new Image()
+        corsImg.crossOrigin = 'anonymous'
+        corsImg.onload = () => {
+          try {
+            drawImageWithFit(ctx, corsImg, canvas, config.imageFit)
+            resolve()
+          } catch (error) {
+            console.error('Error drawing CORS image:', error)
+            // Fallback to background color
+            ctx.fillStyle = config.backgroundColor
+            ctx.fillRect(0, 0, canvas.width, canvas.height)
+            resolve()
+          }
+        }
+        corsImg.onerror = () => {
+          console.error('Both normal and CORS image loading failed')
+          // Fallback to background color if image fails
+          ctx.fillStyle = config.backgroundColor
+          ctx.fillRect(0, 0, canvas.width, canvas.height)
+          resolve()
+        }
+        if (config.backgroundImage) {
+          corsImg.src = config.backgroundImage
+        }
       }
-      img.src = config.backgroundImage
+      if (config.backgroundImage) {
+        img.src = config.backgroundImage
+      }
     } else {
       // Fallback to background color if no image
       ctx.fillStyle = config.backgroundColor
@@ -153,13 +185,26 @@ export const generateImage = async (
   canvas: HTMLCanvasElement,
   config: LGTMConfig
 ): Promise<void> => {
-  canvas.width = config.width
-  canvas.height = config.height
+  try {
+    canvas.width = config.width
+    canvas.height = config.height
 
-  const ctx = getCanvasContext(canvas)
+    const ctx = getCanvasContext(canvas)
 
-  await drawBackgroundSync(ctx, canvas, config)
-  drawText(ctx, canvas)
+    // Clear canvas first
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    // Draw background and wait for completion
+    await drawBackgroundSync(ctx, canvas, config)
+
+    // Draw text on top
+    drawText(ctx, canvas)
+
+    console.log('Image generation completed successfully')
+  } catch (error) {
+    console.error('Error generating image:', error)
+    throw error
+  }
 }
 
 export const clearCanvas = (canvas: HTMLCanvasElement): void => {
