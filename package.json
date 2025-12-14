@@ -26,19 +26,19 @@
     "node": ">=20.19.0"
   },
   "dependencies": {
-    "@chakra-ui/react": "3.27.0",
+    "@chakra-ui/react": "3.30.0",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
-    "framer-motion": "12.23.22",
-    "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "framer-motion": "12.23.26",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
   },
   "devDependencies": {
-    "@types/react": "19.2.0",
-    "@types/react-dom": "19.2.0",
-    "@vitejs/plugin-react": "5.0.4",
-    "@biomejs/biome": "2.2.5",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "5.1.2",
+    "@biomejs/biome": "2.3.8",
     "typescript": "5.9.3",
-    "vite": "7.1.9"
+    "vite": "7.2.7"
   }
 }
