@@ -86,50 +86,25 @@ export const drawBackgroundSync = async (
   return new Promise((resolve) => {
     if (config.backgroundImage) {
       const img = new Image()
-      // Try without crossOrigin first for better compatibility
+      img.crossOrigin = 'anonymous'
       img.onload = () => {
         try {
           drawImageWithFit(ctx, img, canvas, config.imageFit)
           resolve()
         } catch (error) {
           console.error('Error drawing image:', error)
-          // Fallback to background color
           ctx.fillStyle = config.backgroundColor
           ctx.fillRect(0, 0, canvas.width, canvas.height)
           resolve()
         }
       }
-      img.onerror = (error) => {
-        console.warn('Image failed to load, trying with CORS:', error)
-        // Try again with CORS
-        const corsImg = new Image()
-        corsImg.crossOrigin = 'anonymous'
-        corsImg.onload = () => {
-          try {
-            drawImageWithFit(ctx, corsImg, canvas, config.imageFit)
-            resolve()
-          } catch (error) {
-            console.error('Error drawing CORS image:', error)
-            // Fallback to background color
-            ctx.fillStyle = config.backgroundColor
-            ctx.fillRect(0, 0, canvas.width, canvas.height)
-            resolve()
-          }
-        }
-        corsImg.onerror = () => {
-          console.error('Both normal and CORS image loading failed')
-          // Fallback to background color if image fails
-          ctx.fillStyle = config.backgroundColor
-          ctx.fillRect(0, 0, canvas.width, canvas.height)
-          resolve()
-        }
-        if (config.backgroundImage) {
-          corsImg.src = config.backgroundImage
-        }
+      img.onerror = () => {
+        console.error('Image failed to load')
+        ctx.fillStyle = config.backgroundColor
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        resolve()
       }
-      if (config.backgroundImage) {
-        img.src = config.backgroundImage
-      }
+      img.src = config.backgroundImage
     } else {
       // Fallback to background color if no image
       ctx.fillStyle = config.backgroundColor
