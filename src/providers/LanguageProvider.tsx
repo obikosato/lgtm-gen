@@ -45,6 +45,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     document.documentElement.lang = language
+    document.title = messages[language].title
   }, [language])
 
   return (
